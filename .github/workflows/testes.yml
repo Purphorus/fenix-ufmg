@@ -21,11 +21,14 @@ jobs:
           - { os: macos-latest, python: "3.12" }
     runs-on: ${{ matrix.os }}
     env:
-      # Nenhum teste pode tocar dado real nem o chaveiro do sistema.
-      UFMG_DATA_DIR: ${{ runner.temp }}/fenix
       MOODLE_SEM_CHAVEIRO: "1"
       PYTHONUTF8: "1"
     steps:
+      # Nenhum teste pode tocar dado real. `runner.temp` só existe dentro de
+      # um passo, não no `env` do job — daí a variável ser posta aqui.
+      - name: pasta de dados temporária
+        shell: bash
+        run: echo "UFMG_DATA_DIR=${{ runner.temp }}/fenix" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
