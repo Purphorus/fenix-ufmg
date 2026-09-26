@@ -1,0 +1,37 @@
+name: testes
+
+# Roda a suíte nos três sistemas. É o que sustenta a tabela "o que roda onde"
+# do README: sem isto, "funciona no Linux e no Windows" seria só leitura de
+# código.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testes:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, python: "3.11" }
+          - { os: ubuntu-latest, python: "3.13" }
+          - { os: windows-latest, python: "3.12" }
+          - { os: macos-latest, python: "3.12" }
+    runs-on: ${{ matrix.os }}
+    env:
+      # Nenhum teste pode tocar dado real nem o chaveiro do sistema.
+      UFMG_DATA_DIR: ${{ runner.temp }}/fenix
+      MOODLE_SEM_CHAVEIRO: "1"
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest testes/ -q
+      - name: cardápio da skill em dia com o código
+        run: python cli.py skill

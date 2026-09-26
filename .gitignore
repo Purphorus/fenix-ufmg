@@ -1,0 +1,17 @@
+# Ambiente virtual — cada máquina cria o seu (tem caminhos absolutos dentro)
+.venv/
+__pycache__/
+*.pyc
+
+# Sessões de revisão geradas pelo companion
+sessao_*.json
+
+# Nunca versionar: token e cookies moram em ~/.ufmg-moodle-mcp/, mas se
+# alguém apontar MOODLE_SITES_FILE para cá, o .gitignore segura.
+sites.json
+sessao_navegador.json
+*.db
+*.db-wal
+*.db-shm
+
+.DS_Store

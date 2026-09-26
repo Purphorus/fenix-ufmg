@@ -1,0 +1,31 @@
+# Núcleo (cliente Moodle, MCP, sync, CLI)
+httpx>=0.27
+mcp>=1.2
+
+# Extração de texto (extract.py)
+PyMuPDF>=1.24        # PDF
+python-pptx>=1.0     # PPTX
+python-docx>=1.1     # DOCX
+
+# Busca semântica (vetor.py). OPCIONAL: sem ela a busca cai para o lado
+# léxico e continua respondendo — veja `disponivel()` em vetor.py.
+# São ~470MB de modelo baixados no primeiro uso, depois roda offline em CPU.
+fastembed>=0.8
+
+# Token no chaveiro do sistema (Keychain no macOS). OPCIONAL: sem ele o token
+# fica no sites.json com permissão 600, como antes. `cli.py token chaveiro`
+# move um token que já esteja em texto puro.
+keyring>=25
+
+# Login por navegador (login_navegador.py). Opcional: dá para pegar o token
+# na mão com get_token.py. Depois de instalar, rode também:
+#     python -m playwright install chromium
+playwright>=1.40
+
+# Testes das invariantes (testes/). Só para desenvolver: nada em produção
+# importa pytest. `.venv/bin/python -m pytest testes/ -q`
+pytest>=8
+
+# Valida o .ics que `calendario.py` gera, nos testes. Só para desenvolver:
+# a exportação não usa biblioteca, escreve o formato direto.
+icalendar>=6

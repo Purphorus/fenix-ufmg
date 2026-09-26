@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Apostila Macro III — Prova 1</title>
+<style>
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+}
+:root{
+  --tinta:#16181d;
+  --suave:#5a6472;
+  --linha:#d8dde5;
+  --caixa:#f5f7fa;
+  --destaque:#8c2f39;
+  --azul:#1f4e79;
+  --verde:#1d6b42;
+}
+*{box-sizing:border-box}
+body{
+  font-family:"Charter","Georgia","Times New Roman",serif;
+  font-size:10.5pt;
+  line-height:1.5;
+  color:var(--tinta);
+  margin:0;
+  hyphens:auto;
+  text-align:justify;
+}
+h1,h2,h3,h4{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.25;text-align:left}
+h1{font-size:20pt;margin:0 0 4pt}
+h2{
+  font-size:14pt;
+  margin:0 0 10pt;
+  padding:6pt 0 5pt;
+  border-top:2.5pt solid var(--tinta);
+  border-bottom:.6pt solid var(--linha);
+  break-before:page;
+  break-after:avoid;
+}
+h2.sem-quebra{break-before:auto}
+h3{font-size:11.5pt;margin:14pt 0 5pt;color:var(--azul);break-after:avoid}
+h4{font-size:10pt;margin:11pt 0 4pt;break-after:avoid}
+p{margin:0 0 7pt}
+ul,ol{margin:0 0 8pt;padding-left:17pt}
+li{margin-bottom:3pt}
+code,.mono{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:9pt}
+
+/* ---- matemática ---- */
+.eq{
+  font-family:"Cambria Math","Latin Modern Math","Georgia",serif;
+  background:var(--caixa);
+  border-left:2.5pt solid var(--azul);
+  padding:7pt 10pt;
+  margin:9pt 0;
+  font-size:11pt;
+  text-align:center;
+  break-inside:avoid;
+}
+.eq .rot{float:right;font-size:8.5pt;color:var(--suave);font-family:Helvetica,Arial,sans-serif}
+.m{font-family:"Cambria Math","Latin Modern Math",Georgia,serif;font-style:italic}
+.m sub,.m sup{font-style:normal}
+sub,sup{font-size:70%;line-height:0}
+
+/* ---- referência ao slide ---- */
+.slide{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:8pt;
+  color:var(--destaque);
+  white-space:nowrap;
+}
+.fonte{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:8.5pt;
+  color:var(--suave);
+  border-top:.5pt dotted var(--linha);
+  padding-top:3pt;
+  margin-top:8pt;
+  text-align:left;
+}
+
+/* ---- caixas ---- */
+.box{border:.7pt solid var(--linha);background:var(--caixa);padding:8pt 11pt;margin:10pt 0;break-inside:avoid}
+.box p:last-child{margin-bottom:0}
+.box .titulo{font-family:Helvetica,Arial,sans-serif;font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.5pt;color:var(--azul);margin-bottom:4pt}
+.armadilha{border-left:3pt solid var(--destaque);background:#fcf4f4;border-color:#e8cdcf}
+.armadilha .titulo{color:var(--destaque)}
+.chave{border-left:3pt solid var(--azul)}
+
+table{border-collapse:collapse;width:100%;margin:9pt 0;font-size:9.5pt;break-inside:avoid}
+th,td{border:.5pt solid var(--linha);padding:4pt 6pt;text-align:left;vertical-align:top}
+th{background:var(--caixa);font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;text-transform:uppercase;letter-spacing:.3pt}
+td.num{text-align:right;font-family:"SF Mono",Menlo,monospace;font-size:9pt}
+
+/* ---- exercícios ---- */
+.ex{margin:0 0 11pt;padding-left:0;break-inside:avoid}
+.ex .cab{font-family:Helvetica,Arial,sans-serif;font-size:9pt;font-weight:700;margin-bottom:3pt}
+.nivel{
+  display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:7.5pt;
+  font-weight:700;letter-spacing:.4pt;text-transform:uppercase;
+  padding:1pt 5pt;border-radius:2pt;margin-left:5pt;vertical-align:1pt;
+}
+.n1{background:#e3f0e3;color:#2c5f2d}
+.n2{background:#e8f0f8;color:#1f4e79}
+.n3{background:#fdf2e0;color:#8a5a00}
+.n4{background:#fae6e6;color:#8c2f39}
+.n5{background:#eae3f3;color:#4b2e75}
+.origem{font-family:Helvetica,Arial,sans-serif;font-size:8pt;color:var(--suave);font-weight:400}
+
+.gab{break-inside:avoid;margin-bottom:13pt}
+.gab .cab{font-family:Helvetica,Arial,sans-serif;font-size:9.5pt;font-weight:700;color:var(--azul);margin-bottom:3pt;border-bottom:.5pt solid var(--linha);padding-bottom:2pt}
+.resposta{font-weight:700}
+
+/* ---- capa ---- */
+.capa{text-align:center;padding-top:45mm;break-after:page}
+.capa .sub{font-family:Helvetica,Arial,sans-serif;font-size:11pt;color:var(--suave);margin-top:6pt}
+.capa .meta{font-family:Helvetica,Arial,sans-serif;font-size:9.5pt;color:var(--suave);margin-top:28mm;line-height:1.7}
+.capa h1{font-size:26pt;text-align:center}
+.alerta{
+  border:1.2pt solid var(--destaque);background:#fcf4f4;padding:9pt 12pt;
+  margin:14pt auto 0;max-width:120mm;font-size:10pt;text-align:left;
+}
+
+.sumario{font-family:Helvetica,Arial,sans-serif;font-size:9.5pt}
+.sumario td{border:none;padding:2.5pt 4pt;border-bottom:.4pt dotted var(--linha)}
+.sumario td.n{width:22pt;color:var(--suave)}
+
+.aviso-fonte{font-size:9pt;color:var(--suave);font-style:italic}
+</style>
+</head>
+<body>
