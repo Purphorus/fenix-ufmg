@@ -29,6 +29,9 @@ colocar num cron). O banco fica em `~/.ufmg-moodle-mcp/dados.db`, os PDFs em
 `~/.ufmg-moodle-mcp/materiais/`.
 
 Nos exemplos abaixo, `py` é `.venv/bin/python` dentro da pasta do projeto.
+**No Windows, digite `.venv\Scripts\python`**: lá `py` sozinho é o lançador
+do Python do sistema, que não tem as dependências. E `~` é a sua pasta de
+usuário (`C:\Users\<você>` no Windows).
 
 ---
 
@@ -117,7 +120,8 @@ custa mais token.
 
 Nos dois que funcionam, o registro é por cliente: registrar no Claude Code não
 registra no Desktop. E ambos só carregam MCP na inicialização — depois de
-registrar, **feche e reabra** (no Mac, Cmd+Q; fechar a janela não basta).
+registrar, **feche e reabra** (no Mac, Cmd+Q;
+no Windows, Sair pelo ícone da bandeja; fechar a janela não basta).
 
 Se o servidor sumir, o sintoma é o Claude dizer que não tem as ferramentas.
 Confira com `claude mcp list` — precisa dizer `✔ Connected`. A causa mais comum
@@ -135,7 +139,7 @@ de ~28k. Ambos são versionados: quem clonar o repo já os tem.
 A **memória** guarda o que não muda:
 
 ```bash
-py cli.py memoria lembrar "macro" --curso 6095 --rotulo "MACROECONOMIA III"
+py cli.py memoria lembrar "macro" --curso <id> --rotulo "MACROECONOMIA III"
 py cli.py memoria listar
 py cli.py memoria esquecer "macro"
 ```
@@ -203,19 +207,25 @@ py cli.py avisos --dias 30 --automaticos # inclui os do sistema
 
 Aviso **não vira evento sozinho**. "A prova será 26/08" num texto livre é fonte
 pior que o plano de ensino, e nem o plano confirma sozinho. Se a data importa:
-`py cli.py evento add "Prova 1" --data 2026-08-26T07:30 --curso 8025`.
+`py cli.py evento add "Prova 1" --data 2026-08-26T07:30 --curso <id>`.
 
 **Onde isso aparece:**
 
 ```bash
-py cli.py turmas                       # suas 5 turmas, com o id de cada
+py cli.py turmas                       # suas turmas, com o id de cada
 py cli.py materiais --novos            # o que chegou nos últimos 7 dias
-py cli.py materiais --curso 6095       # tudo de Macroeconomia III
+py cli.py materiais --curso <id>       # tudo de uma turma
 ```
 
-Material marcado `[precisa OCR]` é PDF escaneado, sem camada de texto — hoje
-você tem 6 assim, todos capítulos de livro da Economia Regional. Eles não
-entram na busca nem no companion. É limitação conhecida, não erro.
+Material marcado `[precisa OCR]` é PDF escaneado, sem camada de texto. Ele não
+entra na busca nem no companion — é limitação conhecida, não erro — e o
+briefing conta quantos há. Se esses arquivos não importam para você, tire-os
+também dos avisos:
+
+```bash
+py cli.py materiais --ocr              # quais são
+py cli.py materiais --ocr --ignorar    # fora dos avisos (--restaurar desfaz)
+```
 
 ---
 
@@ -245,7 +255,7 @@ resposta curta o que exige atenção. Cada linha só aparece quando tem conteúd
 **Quando o professor muda a data em sala** e o Moodle não reflete:
 
 ```bash
-py cli.py evento add "Prova 2" --data 2026-10-20T14:00 --curso 6095
+py cli.py evento add "Prova 2" --data 2026-10-20T14:00 --curso <id>
 py cli.py evento set 7 --data 2026-10-27T14:00     # corrigir a data do #7
 py cli.py evento confirmar 7                        # blindar contra o sync
 py cli.py evento cancelar 7
@@ -279,7 +289,7 @@ página e as vizinhas); `texto_material`, o arquivo inteiro, é o último recurs
 
 Você também pode buscar direto: `py cli.py buscar "estado estacionário"`.
 
-**O que já foi resumido ou montado:** `py cli.py cobertura --curso 6095`. Ele
+**O que já foi resumido ou montado:** `py cli.py cobertura --curso <id>`. Ele
 mostra quais arquivos têm resumo, quais herdariam resumo de um arquivo irmão
 (material republicado sob outro nome é comum), e que documentos já foram
 montados. Vale olhar antes de pedir um resumo novo: reaproveitar economiza
@@ -288,7 +298,7 @@ entre 60% e 92% do token, mais que qualquer ajuste de busca.
 Pela CLI, o equivalente cru:
 
 ```bash
-py cli.py materiais --curso 6095
+py cli.py materiais --curso <id>
 ```
 
 ---
@@ -325,16 +335,12 @@ O roteiro ordena pelo que você menos sabe:
 2. **DIVERGIU** — você mudou a resposta que o modelo propôs (havia dúvida)
 3. **revisar** — o resto
 
-Hoje o seu roteiro tem 4 questões erradas da Lista 1: duas contas de Solow
-(13440000 em vez de 3360000; 10000 em vez de 70000) e dois verdadeiro/falso
-sobre estado estacionário. As duas contas são o mesmo tipo de erro.
-
 ---
 
 ## 5. Responder um questionário em andamento
 
-Quando a tentativa está **aberta**, o fluxo é o que você desenhou: o modelo
-propõe, você edita e aprova, e o companion envia.
+Quando a tentativa está **aberta**, o fluxo é: o modelo propõe, você edita e
+aprova, e o companion envia.
 
 ```bash
 py cli.py quiz tentativas --quiz 3800      # ver se há tentativa aberta
@@ -346,11 +352,11 @@ py cli.py estudo enviar --arquivo sessao_<id>.json --confirmar
 ```
 
 **O envio depende da política do curso.** Sem declarar nada, só questionário de
-prática (`grade == 0`) é enviado. Como na sua Macro III os questionários valem
+prática (`grade == 0`) é enviado. Se na sua disciplina os questionários valem
 nota no Moodle mas a avaliação real é presencial, declare uma vez:
 
 ```bash
-py cli.py estudo politica --curso 6095 --permitir \
+py cli.py estudo politica --curso <id> --permitir \
     --motivo "listas valem participação; avaliação da disciplina é presencial"
 ```
 
@@ -410,21 +416,23 @@ algo apareceu no Moodle vindo daqui, está nessa lista.
 
 ```bash
 py cli.py agendar instalar                       # sync de hora em hora
-py cli.py agendar instalar --email voce@gmail.com  # + resumo segunda 07:30
+py cli.py agendar instalar --email voce@gmail.com  # + resumo por e-mail (só macOS)
 py cli.py agendar status
 py cli.py agendar remover
 ```
 
-Usa **launchd**, não cron. No macOS o cron funciona (testei), mas o launchd é
-melhor num laptop: `RunAtLoad` recupera a execução perdida enquanto a máquina
+No macOS, `agendar` usa o **launchd**, que num laptop é melhor que o
+cron: `RunAtLoad` recupera a execução perdida enquanto a máquina
 dormia, e o agente sobrevive a reboot. Logs em `~/.ufmg-moodle-mcp/logs/`.
 
 O agente roda `sync`, `extrair` e `programa` em sequência. Token expirado vira
 mensagem legível no log, não traceback — você vai ler isso semanas depois.
 
-### Se preferir cron
+### Linux e Windows
 
-Quando quiser que rode sozinho, um `cron` a cada hora resolve:
+Fora do macOS, `py cli.py agendar instalar` não instala nada: imprime a linha
+de `crontab` (Linux) ou de `schtasks` (Windows) com os caminhos da sua
+máquina, para você colar. No Linux, à mão:
 
 ```bash
 crontab -e
@@ -437,12 +445,15 @@ O minuto 17 é só para não bater no topo da hora junto com todo mundo.
 
 ## 8. Conferir se a busca continua boa
 
-A busca é medida contra um gabarito versionado em `avaliacao/`: 39 consultas e
-36 tópicos em três matérias, com 400 trechos rotulados.
+A busca é medida contra um gabarito versionado em `avaliacao/`. **Esse gabarito
+é o do autor**: as consultas e os rótulos são das matérias dele, e na sua
+máquina `avaliar` devolve a tabela vazia. Ele serve a quem mexer no código da
+busca. Para medir no seu material, escreva as suas consultas em
+`avaliacao/consultas.py` e rotule o que `py cli.py avaliar --sem-rotulo` listar.
 
 ```bash
 py cli.py avaliar                      # mede, grava e compara com a rodada anterior
-py cli.py avaliar --curso 6095         # só uma matéria
+py cli.py avaliar --curso <id>         # só uma matéria
 py cli.py avaliar --sem-rerank         # sem o reranker, mais rápido
 py cli.py avaliar --email voce@x.com   # abre rascunho com o relatório
 ```
@@ -460,7 +471,7 @@ py cli.py agendar instalar --avaliar-email voce@x.com --avaliar-hora 20
 Duas leituras importantes do relatório. A coluna `s/rót` conta trechos que o
 resultado trouxe e que ninguém rotulou ainda — quando ela está alta, a variação
 não é confiável, e o próprio relatório avisa. E os rótulos foram feitos pelo
-assistente, não por você: são indicativos, e `avaliacao/rotulos.json` é um
+assistente, não por uma pessoa: são indicativos, e `avaliacao/rotulos.json` é um
 arquivo simples de corrigir.
 
 ## Quando algo der errado
@@ -471,7 +482,7 @@ arquivo simples de corrigir.
 | prova não aparece na agenda | `py cli.py programa`, depois `py cli.py evento pendentes` para conferir e confirmar |
 | `Erro: Nenhum site configurado` | rode `py login_navegador.py` |
 | `invalidtoken` / `Token expirado` | token venceu; `py login_navegador.py` de novo (não pede senha, a sessão está salva) |
-| `estudo preparar` mostra `campos: (nenhum)` | o tema do site mudou a renderização e o parser quebrou — me traga o HTML de uma questão |
+| `estudo preparar` mostra `campos: (nenhum)` | o tema do site mudou a renderização e o parser quebrou — abra uma issue no repositório com o HTML de uma questão |
 | Material some da busca | veja se está `[precisa OCR]` em `py cli.py materiais` |
 | Sync não baixa nada | `py cli.py sync` sem `--sem-download`; se persistir, cheque `py diagnostico.py` |
 

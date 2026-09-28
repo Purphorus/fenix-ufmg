@@ -66,12 +66,15 @@ quer: `indice("resumo já guardado de um arquivo")`.
 
 ## O que está fora da busca
 
-Arquivos marcados `ignorado` (hoje seis digitalizações de Economia Regional que
-o usuário classificou como irrelevantes) não entram no índice. Não os mencione:
-o usuário já decidiu que não importam, e lembrá-lo a cada resposta é ruído.
+Dois tipos de arquivo não entram no índice:
 
-Se algo genuinamente não estiver no material, diga isso — sem especular sobre
-o que poderia estar nos arquivos ignorados.
+- **`precisa_ocr`**: PDF escaneado, sem camada de texto. Quando não achar o
+  assunto, diga em NÃO ENCONTRADO que ele pode estar num PDF escaneado da
+  matéria (`cli.py materiais --ocr` lista quais) — não achar não é não existir.
+- **`ignorado`**: o usuário marcou como irrelevante. Não os mencione: ele já
+  decidiu, e lembrá-lo a cada resposta é ruído.
+
+Se algo genuinamente não estiver no material, diga isso.
 
 ## Formato da resposta
 

@@ -1,6 +1,6 @@
 ---
 name: ufmg-companion
-description: Consultar turmas, prazos, notas, materiais de aula e questionários do UFMG Virtual (Moodle), estudar a partir dos slides baixados, revisar questionário corrigido, ou postar em fórum e entregar tarefa. Use sempre que a pergunta for sobre a faculdade do usuário — matéria, prova, lista, entrega, nota, slide, professor, semestre — ou citar Moodle, UFMG, Macro, Econometria, Micro, ECN.
+description: Consultar turmas, prazos, notas, materiais de aula e questionários do UFMG Virtual (Moodle), estudar a partir dos slides baixados, revisar questionário corrigido, ou postar em fórum e entregar tarefa. Use sempre que a pergunta for sobre a faculdade do usuário — matéria, prova, lista, entrega, nota, slide, professor, semestre — ou citar Moodle, UFMG, ou o nome ou o código de uma matéria.
 ---
 
 # UFMG Moodle Companion
@@ -42,7 +42,7 @@ registrar:
 
 Na **primeira** pergunta sobre o Moodle nesta conversa, chame
 `memoria_contexto()`. São ~200 tokens que evitam uma chamada de `listar_turmas`
-em quase toda pergunta seguinte, porque traduzem "macro" → curso 6095.
+em quase toda pergunta seguinte, porque traduzem o apelido de uma matéria ("cálculo") no id do curso.
 
 Não repita essa chamada na mesma conversa.
 
@@ -104,17 +104,18 @@ antes de responder de conhecimento geral. A diferença entre "seus slides dizem
 X" e "não achei nos seus slides, mas em geral X" é o que o usuário precisa para
 saber quanto confiar — e para estudar pela fonte certa.
 
-Seis PDFs estão marcados `precisa_ocr` (digitalizações sem camada de texto) e
-são invisíveis à busca. Todos são de Economia Regional: Perroux, Boudeville,
-Rolim, North, Pires. Se o assunto for esse e a busca não achar, avise que pode
-estar num deles em vez de concluir que não existe.
+PDFs marcados `precisa_ocr` (digitalizações sem camada de texto) são invisíveis
+à busca. Se a busca não achar o assunto e a matéria tiver arquivos assim
+(`cli.py materiais --ocr` lista), avise que pode estar num deles em vez de
+concluir que não existe. Os que o usuário marcou `ignorado` ele já descartou:
+não os mencione.
 
 ## Oferecer memória
 
-Ao resolver um apelido pela primeira vez (descobriu que "Investimento" é o
-curso 8025), ofereça salvar em **uma linha**, e siga com a resposta:
+Ao resolver um apelido pela primeira vez (descobriu que "cálculo" é o
+curso 1234), ofereça salvar em **uma linha**, e siga com a resposta:
 
-> (quer que eu memorize "investimento" = curso 8025? evita a busca da próxima vez)
+> (quer que eu memorize "cálculo" = curso 1234? evita a busca da próxima vez)
 
 Nunca memorize sozinho. E nunca memorize nota, prazo ou status — a ferramenta
 recusa, e o motivo é que o Moodle muda e o cache mentiria.

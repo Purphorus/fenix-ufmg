@@ -196,8 +196,10 @@ Detalhe de design em `PROJETO.md`; uso no dia a dia em `GUIA.md`.
   `campos` vazio.
 - Tentativa finalizada só responde a `get_attempt_review`, não a
   `get_attempt_data`.
-- Seis PDFs escaneados estão marcados `ignorado`: fora da busca, e o usuário já
-  disse que não importam — não os mencione.
+- PDF escaneado, sem camada de texto (`precisa_ocr`), fica fora da busca. Se a
+  busca não achar o assunto, diga que ele pode estar num desses. Os que o
+  usuário marcou `ignorado` (`cli.py materiais --ocr --ignorar`) ele já
+  descartou: não os mencione.
 - O lado semântico da busca depende do `fastembed`, que é opcional. Sem ele a
   busca responde só pelo termo, não há grafo entre documentos, e `cli.py
   extrair` diz quantos trechos estão sem vetor.
@@ -339,11 +341,11 @@ Detalhe de design em `PROJETO.md`; uso no dia a dia em `GUIA.md`.
   cookie `ufmg_saml_session`, `webservice/rest/server.php` responde 302 para
   `sistemas.ufmg.br/idp` **com ou sem token** — por isso parecia token
   expirado e não era. Medido um a um, dos nove cookies do login ele é o
-  **único** necessário. Fica no chaveiro como `20262:saml`, `get_client` o
+  **único** necessário. Fica no chaveiro como `<semestre>:saml` (ex.: `20262:saml`), `get_client` o
   carrega e o cliente o manda. É cookie de sessão: não diz quando expira, quem
   decide é o servidor. Quando expirar, `MoodleBloqueadoSSO` diz para rodar
   `login_navegador.py 20262 --so-sessao`, que renova só o cookie e mantém o
-  token. **Login automático** (autorizado pelo usuário): com
+  token. **Login automático** (opcional, só para quem pedir): com
   `login_navegador.py --guardar-credenciais`, usuário e senha do minhaUFMG
   vão para o chaveiro por prompt que não ecoa, e o cliente refaz o login
   sem janela quando bate no SSO — uma vez, e no máximo a cada 15 min,
