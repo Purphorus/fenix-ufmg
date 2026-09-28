@@ -166,3 +166,16 @@ O desenho, as medições e o que foi testado e descartado estão em
 
 As regras que não podem quebrar estão no [CLAUDE.md](CLAUDE.md), cada uma com
 teste conferido por mutação.
+
+## Licença
+
+[PolyForm Noncommercial 1.0.0](LICENSE). Em resumo (o que vale é o texto da
+licença):
+
+- **Uso não comercial é livre**: estudar, usar nas suas matérias, modificar,
+  repassar a colegas.
+- **Crédito é obrigatório**: quem repassar qualquer parte do código, alterada
+  ou não, leva junto a licença e a linha `Required Notice:` do topo dela.
+- **Uso comercial de qualquer parte precisa de autorização** de
+  [Purphorus](https://github.com/Purphorus), dada caso a caso e nos termos
+  combinados.

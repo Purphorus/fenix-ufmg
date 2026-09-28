@@ -56,6 +56,12 @@ peso da origem, e a guarda de `confirmado` podia ser removida sem quebrar
 nada. O caso que morde é evento de `programa_pdf` confirmado na mão e depois
 contrariado pelo calendário, que tem peso maior.
 
+Rode a conferência **sem bytecode** (`python -B`, `PYTHONDONTWRITEBYTECODE=1`).
+O Python só recompila quando muda a data (em segundos) ou o tamanho do
+arquivo: mutação do mesmo tamanho (`days=1` → `days=2`), restaurada no mesmo
+segundo, deixou o compilado MUTADO valendo para o original, e as mutações
+seguintes "derrubaram" teste pelo motivo errado (27/09).
+
 1. **Escrita ensaia por padrão.** `confirmar=True` só quando o usuário mandar
    enviar naquela mensagem. Pedir para redigir não é pedir para publicar.
    Toda tentativa, inclusive falha, vai para `log_escrita`. Vale para o Moodle
