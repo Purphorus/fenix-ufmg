@@ -34,7 +34,7 @@ com as provas e prazos confirmados, que o Google Agenda e o Outlook importam.
 Python 3.11 ou mais novo.
 
 ```bash
-git clone <este repositório> fenix-ufmg && cd fenix-ufmg
+git clone https://github.com/Purphorus/fenix-ufmg && cd fenix-ufmg
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt            # Windows: .venv\Scripts\pip
 .venv/bin/python -m playwright install chromium      # login pelo navegador e apostila em PDF
